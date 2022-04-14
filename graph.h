@@ -6,6 +6,7 @@
 #define GRAPH_H
 
 #include <vector>
+#include <iostream>
 
 using namespace std;
 
@@ -15,32 +16,41 @@ class graph {
 		int numE = 0;
 		vector<vector<bool>> adjMatrix;
 	public:
-		graph(int v, int e) {
+		graph(int v) {
 			numV = v;
-			numE = e;
-			vector<vector<bool>> tempMat(numV, vector<bool> (numV, false));
-			adjMatrix = tempMat;
-		};
+			vector<vector<bool>> tempMat(numV, vector<bool>(numV, false));
+			adjMatrix =  tempMat;
+		}
+
+		int vertices(void) {
+			return numV;
+		}
+
+		int edges(void) {
+			return numE;
+		}
 
 		bool hasVertex(int vertex) {
 			return (vertex >= 0) && (vertex < numV);
 		};
-		
+
 		bool validEdge(int from, int to) {
 			return hasVertex(from) && hasVertex(to);
 		};
 
 		void addEdge(int from, int to) {
 			if(!validEdge(from,to)) {
+				cout << "Invalid Edge" << endl;
 				return;
 			}
 			numE += !adjMatrix[from][to];
 			adjMatrix[from][to] = true;
 			adjMatrix[to][from] = true;
 		};
-		
+
 		void removeEdge(int from, int to) {
 			if(!validEdge(from,to)) {
+				cout << "Invalid Edge" << endl;
 				return;
 			}
 			numE -= adjMatrix[from][to];
@@ -50,6 +60,7 @@ class graph {
 
 		bool hasEdge(int from, int to) {
 			if(!validEdge(from,to)) {
+				cout << "Invalid Edge" << endl;
 				return false;
 			}
 			return adjMatrix[from][to];
